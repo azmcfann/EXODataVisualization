@@ -7,6 +7,7 @@ from GaitCore.Core import Point
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     fig, ax = plt.subplots(3)
+    #Change to location of file in your system
     curFile = r"C:\Users\Owner\Documents\GaitAnalysisCSVs\CSVs\11_12_20_nathaniel_walking_00.csv"
     trial = ViconGaitingTrial.ViconGaitingTrial(vicon_file=curFile)
     markers = trial.vicon.get_markers()
@@ -20,7 +21,7 @@ if __name__ == '__main__':
                markers.get_marker("LFemurBack2"), markers.get_marker("LFemurBack3")]
     trial_range = len(marking[0])
     x = np.arange(0, trial_range)
-    ax[0].set_title('Front & Back Y (red), Side Y (yellow), Over Time')
+    ax[0].set_title('Front & Back Y (blue), Side Y (yellow), Over Time')
     ax[1].set_title('Front & Back X (blue), Side X (yellow), Over Time')
     ax[2].set_title('Front & Back Z (blue), Side Z (yellow), Over Time')
     xav = 0
@@ -29,15 +30,6 @@ if __name__ == '__main__':
     points = 0
     average_points = []
 
-    # LFemurFront0 - 3 & LFemurBack0 - 3
-    # LFemurSide0 - 3
-
-    # x = dist
-    # 2d plots for it
-    file_output = open(r"C:\Users\Owner\PycharmProjects\pythonProject\Files\MostRecentOutput.txt", "w+")
-    average_output = open(r"C:\Users\Owner\PycharmProjects\pythonProject\Files\RecentOutputAvg.txt", "w+")
-    file_output.write("   X      Y      Z   \n")
-    # TIMEVAL = 1;
     for i in range(trial_range):
         my_maker = Point.Point(0, 0, 0)
         side_maker = Point.Point(0, 0, 0)
@@ -51,7 +43,7 @@ if __name__ == '__main__':
 
         average_points.append(my_maker)
         #Y
-        ax[0].plot(i, my_maker.y, 'ro', markersize=1)
+        ax[0].plot(i, my_maker.y, 'bo', markersize=1)
         #ax[0].plot(i, my_maker.x, 'bo', markersize=1)
         ax[0].plot(i, side_maker.y, 'yo', markersize=1)
 
@@ -69,28 +61,9 @@ if __name__ == '__main__':
         yav = yav + my_maker.y
         zav = zav + my_maker.z
         points = points + 1
-        SL = [str(my_maker.x), " ", str(my_maker.y), " ", str(my_maker.z), "\n"]
-        file_output.write(str(points))
-        file_output.write(":     ")
-        file_output.writelines(SL)
 
     xav = xav / points
     yav = yav / points
     zav = zav / points
-    #print("Average x value: " + str(xav) + "\n")
-    average_output.write("X Avg:  ")
-    average_output.write(str(xav))
-    average_output.write("\n")
-    #print("Average y value: " + str(yav) + "\n")
-    average_output.write("Y Avg:  ")
-    average_output.write(str(yav))
-    average_output.write("\n")
-    #print("Average z value: " + str(zav) + "\n")
-    average_output.write("Z Avg:  ")
-    average_output.write(str(zav))
-    average_output.write("\n")
-
-    average_output.close()
-    file_output.close()
     plt.show()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
