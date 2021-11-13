@@ -3,7 +3,7 @@ from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
 from GaitCore.Core import Point, PointArray
-
+import csv
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
@@ -87,6 +87,24 @@ if __name__ == '__main__':
 
     average_tibia_side = PointArray.PointArray.from_point_array(average_tibia_side)
     average_tibia_human = PointArray.PointArray.from_point_array(average_tibia_human)
+
+
+    x_human = average_femur_human.z
+    x_exo = average_femur_side.z
+    v_human = np.diff(x_human)/0.01
+    v_exo = np.diff(x_exo )/0.01
+
+    d = {}
+
+    d['x_human'] = x_human
+    d["x_exo"] = x_exo
+    d["v_human"] = v_human
+    d["v_exo"] = v_exo
+
+    with open("../matlab/test.csv", "w") as outfile:
+        writer = csv.writer(outfile)
+        writer.writerow(list(d.keys()))
+        writer.writerows(zip(*d.values()))
 
     t = np.linspace(0, 100, len(average_femur_human))
 

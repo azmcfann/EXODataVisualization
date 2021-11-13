@@ -42,8 +42,8 @@ end
 % objective funtion
 function f = objective(x, x_human,v_human, poly_x, poly_v)
     % Get the optimization vars
-    K = x(1);
-    B = x(2);
+    K = x(1)
+    B = x(2)
     
     % set up the initial state of the model 
     x0 = [x_human(1);v_human(1)];
@@ -59,8 +59,8 @@ function f = objective(x, x_human,v_human, poly_x, poly_v)
     poly_human = polyfit(tspane,x_human,15);
     poly_path = polyfit(sol.x ,sol.y(1,:),15);
     
-    path = polyval(poly_path, tspane);
-    path_human = polyval(poly_human,tspane);
+    path = polyval(tspane, poly_path)
+    path_human = polyval(tspane, poly_human)
     
     
     f = sum(sqrt( (path - path_human).^2)) ; 
